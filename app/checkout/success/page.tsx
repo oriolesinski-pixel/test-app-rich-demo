@@ -55,7 +55,7 @@ export default function SuccessPage() {
         <div className="mt-8 text-sm text-gray-600">
           <p>Estimated delivery: 5-7 business days</p>
           <p className="mt-2">
-            Questions? Contact us at
+            Questions? Contact us at{' '}
             <a href="mailto:support@testshop.com" className="text-blue-600 hover:underline">
               support@testshop.com
             </a>

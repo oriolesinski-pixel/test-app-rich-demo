@@ -32,7 +32,7 @@ export default function ReturnsPage() {
             <ol className="list-decimal pl-6 text-gray-700 space-y-2">
               <li>Log into your account and go to Order History</li>
               <li>Select the order containing the item(s) you want to return</li>
-              <li>Click -Return Items- and follow the instructions</li>
+              <li>Click Return Items and follow the instructions</li>
               <li>Print the prepaid shipping label</li>
               <li>Pack the items securely and attach the label</li>
               <li>Drop off at any authorized shipping location</li>
