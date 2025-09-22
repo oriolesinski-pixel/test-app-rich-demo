@@ -8,7 +8,7 @@ export default function ReturnsPage() {
           <h2 className="text-2xl font-semibold mb-4">30-Day Return Policy</h2>
           <div className="bg-white rounded-lg shadow p-6">
             <p className="text-gray-700 mb-4">
-              We want you to be completely satisfied with your purchase. If you're not happy with your order,
+              We want you to be completely satisfied with your purchase. If you are not happy with your order,
               you can return it within 30 days of delivery for a full refund or exchange.
             </p>
           </div>

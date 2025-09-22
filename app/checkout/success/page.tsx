@@ -33,7 +33,7 @@ export default function SuccessPage() {
           <p className="text-sm text-gray-600 mb-2">Order Number</p>
           <p className="text-xl font-semibold">{orderId}</p>
           <p className="text-sm text-gray-600 mt-4">
-            We've sent a confirmation email with your order details.
+            We have sent a confirmation email with your order details.
           </p>
         </div>
 
