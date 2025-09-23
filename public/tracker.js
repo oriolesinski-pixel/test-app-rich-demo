@@ -109,7 +109,7 @@
   class AnalyticsTracker {
     constructor() {
       this.config = {
-        appKey: 'test-app-rich-1758466234599',
+        appKey: 'test-app-rich-1758615581297',
         endpoint: 'http://localhost:8082/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
@@ -136,16 +136,16 @@
             name: 'AddToCartButton',
             type: 'button',
             selectors: [".cart-btn","[data-action='add-to-cart']"],
-            purpose: 'Add a product to the shopping cart',
+            purpose: 'Add product to cart',
             contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id","price"],"sibling_context":[],"data_attributes":["data-product-id"]}
+            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
 
         {
             name: 'WishlistButton',
             type: 'button',
             selectors: [".wishlist-btn","[data-action='toggle-wishlist']"],
-            purpose: 'Add or remove a product from the wishlist',
+            purpose: 'Add/remove product from wishlist',
             contextNeeded: ["product_id"],
             contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
@@ -154,81 +154,90 @@
             name: 'QuantitySelector',
             type: 'selector',
             selectors: [".quantity-input","[data-action='update-quantity']"],
-            purpose: 'Update the quantity of a product in the cart',
+            purpose: 'Update product quantity in cart',
             contextNeeded: ["product_id","quantity"],
-            contextCollection: {"search_parents":[".cart-item"],"extract_fields":["product-id","quantity"],"sibling_context":[],"data_attributes":["data-product-id"]}
+            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id","quantity"],"sibling_context":[],"data_attributes":["data-product-id"]}
+        },
+
+        {
+            name: 'LoginForm',
+            type: 'form',
+            selectors: ["form[action='/auth/login']"],
+            purpose: 'User authentication',
+            contextNeeded: ["email","password"],
+            contextCollection: {"search_parents":["form[action='/auth/login']"],"extract_fields":["email","password"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'RegisterForm',
+            type: 'form',
+            selectors: ["form[action='/auth/register']"],
+            purpose: 'User registration',
+            contextNeeded: ["name","email","password","confirmPassword"],
+            contextCollection: {"search_parents":["form[action='/auth/register']"],"extract_fields":["name","email","password","confirmPassword"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'CheckoutForm',
+            type: 'form',
+            selectors: ["form[onSubmit='handleSubmit']"],
+            purpose: 'Checkout process',
+            contextNeeded: ["firstName","lastName","email","phone","address","city","state","zipCode","country"],
+            contextCollection: {"search_parents":["form[onSubmit='handleSubmit']"],"extract_fields":["firstName","lastName","email","phone","address","city","state","zipCode","country"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'PaymentForm',
+            type: 'form',
+            selectors: ["form[onSubmit='handleSubmit']"],
+            purpose: 'Payment processing',
+            contextNeeded: ["cardNumber","cardName","expiryDate","cvv","saveCard"],
+            contextCollection: {"search_parents":["form[onSubmit='handleSubmit']"],"extract_fields":["cardNumber","cardName","expiryDate","cvv","saveCard"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'ClearCartButton',
+            type: 'button',
+            selectors: [".clear-cart-btn","[data-action='clear-cart']"],
+            purpose: 'Clear all items from the cart',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[".cart-container"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
             name: 'RemoveFromCartButton',
             type: 'button',
             selectors: [".remove-from-cart","[data-action='remove-from-cart']"],
-            purpose: 'Remove a product from the shopping cart',
+            purpose: 'Remove a specific item from the cart',
             contextNeeded: ["product_id"],
             contextCollection: {"search_parents":[".cart-item"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
 
         {
-            name: 'ClearCartButton',
+            name: 'PrevSlideButton',
             type: 'button',
-            selectors: [".clear-cart","[data-action='clear-cart']"],
-            purpose: 'Clear all items from the shopping cart',
+            selectors: [".carousel-prev-btn","[aria-label='Previous slide']"],
+            purpose: 'Navigate to the previous slide in the carousel',
             contextNeeded: [],
-            contextCollection: {"search_parents":["form"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+            contextCollection: {"search_parents":[".carousel-container"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'LoginForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']","#login-form"],
-            purpose: 'Allow users to log in to their account',
-            contextNeeded: ["email","password"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["email","password"],"sibling_context":[],"data_attributes":[]}
+            name: 'NextSlideButton',
+            type: 'button',
+            selectors: [".carousel-next-btn","[aria-label='Next slide']"],
+            purpose: 'Navigate to the next slide in the carousel',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[".carousel-container"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'RegisterForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']","#register-form"],
-            purpose: 'Allow users to create a new account',
-            contextNeeded: ["name","email","password","confirmPassword"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["name","email","password","confirmPassword"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'ShippingInfoForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']","#shipping-info-form"],
-            purpose: 'Allow users to enter their shipping information',
-            contextNeeded: ["firstName","lastName","email","phone","address","city","state","zipCode","country"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["firstName","lastName","email","phone","address","city","state","zipCode","country"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'PaymentForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']","#payment-form"],
-            purpose: 'Allow users to enter their payment information and complete the checkout process',
-            contextNeeded: ["cardNumber","cardName","expiryDate","cvv","saveCard"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["cardNumber","cardName","expiryDate","cvv","saveCard"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'Carousel',
-            type: 'custom',
-            selectors: [".carousel","#carousel"],
-            purpose: 'Display a rotating carousel of product promotions or featured items',
-            contextNeeded: ["currentSlide"],
-            contextCollection: {"search_parents":[".carousel"],"extract_fields":["currentSlide"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'ProductLink',
-            type: 'link',
-            selectors: [".product-link","[data-product-id]"],
-            purpose: 'Navigate to the product details page for a specific product',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
+            name: 'SlideIndicator',
+            type: 'selector',
+            selectors: [".carousel-indicator","[data-slide-index]"],
+            purpose: 'Navigate to a specific slide in the carousel',
+            contextNeeded: ["slide_index"],
+            contextCollection: {"search_parents":[".carousel-container"],"extract_fields":["slide-index"],"sibling_context":[],"data_attributes":["data-slide-index"]}
         }
       ];
       
@@ -267,8 +276,8 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for test-app-rich-1758466234599');
-      console.log('📊 Tracking 11 discovered components');
+      console.log('🤖 AI-Enhanced Analytics initialized for test-app-rich-1758615581297');
+      console.log('📊 Tracking 12 discovered components');
       console.log('🔑 User ID:', this.userId);
       
       this.trackPageView();
