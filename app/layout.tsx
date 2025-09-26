@@ -24,7 +24,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Analytics Tracker - Zero Configuration Required! */}
-        <Script src="/tracker.js" strategy="afterInteractive" />
       </head>      <body className={inter.className}>
         <AuthProvider>
           <CartProvider>
