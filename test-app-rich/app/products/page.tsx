@@ -7,24 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Search, ShoppingCart, Filter, Star } from 'lucide-react';
 import { useCart } from '@/app/contexts/CartContext';
-
-// Mock product data
-const products = [
-  { id: 1, name: 'Wireless Headphones', price: 99.99, rating: 4.5, category: 'electronics', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop' },
-  { id: 2, name: 'Smart Watch', price: 299.99, rating: 4.2, category: 'electronics', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop' },
-  { id: 3, name: 'Running Shoes', price: 129.99, rating: 4.8, category: 'sports', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop' },
-  { id: 4, name: 'Backpack', price: 79.99, rating: 4.3, category: 'accessories', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&h=500&fit=crop' },
-  { id: 5, name: 'Water Bottle', price: 24.99, rating: 4.6, category: 'sports', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=500&fit=crop' },
-  { id: 6, name: 'Sunglasses', price: 149.99, rating: 4.4, category: 'accessories', image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=500&fit=crop' },
-  { id: 7, name: 'Laptop Stand', price: 49.99, rating: 4.7, category: 'electronics', image: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop' },
-  { id: 8, name: 'Yoga Mat', price: 34.99, rating: 4.5, category: 'sports', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500&h=500&fit=crop' },
-];
+import { products } from '@/app/data/products';
 
 function ProductsContent() {
   const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 500]);
+  const [priceRange, setPriceRange] = useState([0, 3000]);
   const { addToCart } = useCart();
 
   // Get search query from URL params
@@ -38,16 +27,22 @@ function ProductsContent() {
   const filteredProducts = useMemo(() => {
     return products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+      const matchesCategory = selectedCategory === 'all' || product.category.toLowerCase() === selectedCategory.toLowerCase();
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
       return matchesSearch && matchesCategory && matchesPrice;
     });
   }, [searchQuery, selectedCategory, priceRange]);
 
+  // Get unique categories from products
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(products.map(p => p.category));
+    return ['all', ...Array.from(uniqueCategories)];
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">All Products</h1>
-      
+
       {/* Search and Filters */}
       <div className="mb-8 space-y-4">
         {/* Search Bar */}
@@ -70,10 +65,11 @@ function ProductsContent() {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="all">All Categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="sports">Sports</option>
-            <option value="accessories">Accessories</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
           </select>
 
           {/* Price Range */}
@@ -83,7 +79,7 @@ function ProductsContent() {
               type="number"
               value={priceRange[0]}
               onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
-              className="w-20 px-2 py-1 border border-gray-300 rounded"
+              className="w-24 px-2 py-1 border border-gray-300 rounded"
               placeholder="Min"
             />
             <span>-</span>
@@ -91,7 +87,7 @@ function ProductsContent() {
               type="number"
               value={priceRange[1]}
               onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
-              className="w-20 px-2 py-1 border border-gray-300 rounded"
+              className="w-24 px-2 py-1 border border-gray-300 rounded"
               placeholder="Max"
             />
           </div>
@@ -109,37 +105,44 @@ function ProductsContent() {
                   alt={product.name}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
             </Link>
             <div className="p-4">
               <Link href={`/products/${product.id}`}>
-                <h3 className="font-semibold text-lg mb-2 hover:text-blue-600">{product.name}</h3>
+                <h3 className="font-semibold text-lg mb-2 hover:text-blue-600 line-clamp-2">{product.name}</h3>
               </Link>
               <div className="flex items-center mb-2">
                 <div className="flex items-center">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-4 h-4 ${
-                        i < Math.floor(product.rating)
+                      className={`w-4 h-4 ${i < Math.floor(product.rating)
                           ? 'text-yellow-400 fill-current'
                           : 'text-gray-300'
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>
-                <span className="ml-2 text-sm text-gray-600">({product.rating})</span>
+                <span className="ml-2 text-sm text-gray-600">({product.reviews})</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-xl font-bold">${product.price}</span>
                 <button
                   onClick={() => addToCart(product)}
-                  className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  disabled={!product.inStock}
+                  className={`p-2 rounded-lg transition-colors ${product.inStock
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                 >
                   <ShoppingCart className="w-5 h-5" />
                 </button>
               </div>
+              {!product.inStock && (
+                <p className="text-red-500 text-sm mt-2">Out of Stock</p>
+              )}
             </div>
           </div>
         ))}

@@ -1,3 +1,4 @@
+///Users/oriolesinski/main-project-repo/demo-test-apps/test-app-rich/app/products/[id]/page.tsx
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';

@@ -11,6 +11,10 @@ const nextConfig = {
     // your project has type errors.
     ignoreBuildErrors: true,
   },
+  images: {
+    // This allows Next.js to optimize local images
+    unoptimized: false,
+  }
 }
 
 export default nextConfig
