@@ -109,7 +109,7 @@
   class AnalyticsTracker {
     constructor() {
       this.config = {
-        appKey: 'test-app-rich-1758550776847',
+        appKey: 'test-app-rich-demo-2025-09-26-8521tkret0d',
         endpoint: 'http://localhost:8082/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
@@ -133,120 +133,192 @@
       // AI-discovered component patterns
       this.componentDetectors = [
         {
+            name: 'Button',
+            type: 'button',
+            selectors: [".bg-blue-600",".hover:bg-blue-700",".px-6",".py-3",".rounded-lg"],
+            purpose: 'Primary action buttons (e.g. Continue Shopping, Log In, Create Account)',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'Link',
+            type: 'link',
+            selectors: [".font-medium",".text-blue-600",".hover:text-blue-500"],
+            purpose: 'Secondary links (e.g. Sign in to existing account, Create new account)',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'QuantitySelector',
+            type: 'selector',
+            selectors: [".flex",".items-center",".gap-2",".p-1",".hover:bg-gray-100",".rounded"],
+            purpose: 'Quantity control for cart items',
+            contextNeeded: ["product_id","quantity"],
+            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id","quantity"],"sibling_context":[],"data_attributes":["data-product-id"]}
+        },
+
+        {
+            name: 'RemoveFromCart',
+            type: 'button',
+            selectors: [".text-red-500",".hover:text-red-700"],
+            purpose: 'Remove item from cart',
+            contextNeeded: ["product_id"],
+            contextCollection: {"search_parents":[".cart-item"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
+        },
+
+        {
+            name: 'EmailInput',
+            type: 'form_input',
+            selectors: ["#email",".appearance-none",".rounded-none",".relative",".block",".w-full",".px-3",".py-2",".border",".border-gray-300",".placeholder-gray-500",".text-gray-900",".rounded-t-md",".focus:outline-none",".focus:ring-blue-500",".focus:border-blue-500",".focus:z-10",".sm:text-sm"],
+            purpose: 'Email input field for login/registration',
+            contextNeeded: ["email"],
+            contextCollection: {"search_parents":[".login-form",".register-form"],"extract_fields":["email"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'PasswordInput',
+            type: 'form_input',
+            selectors: ["#password",".appearance-none",".rounded-none",".relative",".block",".w-full",".px-3",".py-2",".border",".border-gray-300",".placeholder-gray-500",".text-gray-900",".rounded-b-md",".focus:outline-none",".focus:ring-blue-500",".focus:border-blue-500",".focus:z-10",".sm:text-sm"],
+            purpose: 'Password input field for login/registration',
+            contextNeeded: ["password"],
+            contextCollection: {"search_parents":[".login-form",".register-form"],"extract_fields":["password"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'LoginForm',
+            type: 'form',
+            selectors: [".mt-8",".space-y-6","onSubmit={handleSubmit}"],
+            purpose: 'Login form submission',
+            contextNeeded: ["email","password"],
+            contextCollection: {"search_parents":[],"extract_fields":["email","password"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'RegisterForm',
+            type: 'form',
+            selectors: [".mt-8",".space-y-6","onSubmit={handleSubmit}"],
+            purpose: 'Registration form submission',
+            contextNeeded: ["name","email","password","confirmPassword"],
+            contextCollection: {"search_parents":[],"extract_fields":["name","email","password","confirmPassword"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'NameInput',
+            type: 'form_input',
+            selectors: ["#name",".mt-1",".appearance-none",".relative",".block",".w-full",".px-3",".py-2",".border",".border-gray-300",".placeholder-gray-500",".text-gray-900",".rounded-md",".focus:outline-none",".focus:ring-blue-500",".focus:border-blue-500",".focus:z-10",".sm:text-sm"],
+            purpose: 'Name input field for registration',
+            contextNeeded: ["name"],
+            contextCollection: {"search_parents":[".register-form"],"extract_fields":["name"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'ConfirmPasswordInput',
+            type: 'form_input',
+            selectors: ["#confirmPassword",".mt-1",".appearance-none",".relative",".block",".w-full",".px-3",".py-2",".border",".border-gray-300",".placeholder-gray-500",".text-gray-900",".rounded-md",".focus:outline-none",".focus:ring-blue-500",".focus:border-blue-500",".focus:z-10",".sm:text-sm"],
+            purpose: 'Confirm password input field for registration',
+            contextNeeded: ["confirmPassword"],
+            contextCollection: {"search_parents":[".register-form"],"extract_fields":["confirmPassword"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
             name: 'AddToCartButton',
             type: 'button',
-            selectors: [".cart-btn","[data-action='add-to-cart']"],
+            selectors: [".bg-blue-600",".text-white",".px-4",".py-2",".rounded-md",".hover:bg-blue-700",".transition-colors"],
             purpose: 'Add product to cart',
             contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id","price"],"sibling_context":[],"data_attributes":["data-product-id"]}
+            contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
 
         {
             name: 'WishlistButton',
             type: 'button',
-            selectors: [".wishlist-btn","[data-action='toggle-wishlist']"],
+            selectors: [".text-red-500",".hover:text-red-700"],
             purpose: 'Add/remove product from wishlist',
             contextNeeded: ["product_id"],
             contextCollection: {"search_parents":[".product-card","[data-product]"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
 
         {
-            name: 'QuantitySelector',
-            type: 'selector',
-            selectors: [".quantity-input","[data-action='update-quantity']"],
-            purpose: 'Update product quantity in cart',
+            name: 'QuantityInput',
+            type: 'form_input',
+            selectors: [".w-12",".text-center"],
+            purpose: 'Quantity input for cart items',
             contextNeeded: ["product_id","quantity"],
-            contextCollection: {"search_parents":[".product-card","[data-product]","form"],"extract_fields":["product-id","quantity"],"sibling_context":[],"data_attributes":["data-product-id"]}
-        },
-
-        {
-            name: 'LoginForm',
-            type: 'form',
-            selectors: ["form[action='/auth/login']"],
-            purpose: 'User authentication',
-            contextNeeded: ["email","password"],
-            contextCollection: {"search_parents":["form[action='/auth/login']"],"extract_fields":["email","password"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'RegisterForm',
-            type: 'form',
-            selectors: ["form[action='/auth/register']"],
-            purpose: 'User registration',
-            contextNeeded: ["name","email","password","confirmPassword"],
-            contextCollection: {"search_parents":["form[action='/auth/register']"],"extract_fields":["name","email","password","confirmPassword"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'CheckoutForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']"],
-            purpose: 'Checkout process',
-            contextNeeded: ["firstName","lastName","email","phone","address","city","state","zipCode","country"],
-            contextCollection: {"search_parents":["form[onSubmit='handleSubmit']"],"extract_fields":["firstName","lastName","email","phone","address","city","state","zipCode","country"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'PaymentForm',
-            type: 'form',
-            selectors: ["form[onSubmit='handleSubmit']"],
-            purpose: 'Payment processing',
-            contextNeeded: ["cardNumber","cardName","expiryDate","cvv","saveCard"],
-            contextCollection: {"search_parents":["form[onSubmit='handleSubmit']"],"extract_fields":["cardNumber","cardName","expiryDate","cvv","saveCard"],"sibling_context":[],"data_attributes":[]}
+            contextCollection: {"search_parents":[".cart-item"],"extract_fields":["product-id","quantity"],"sibling_context":[],"data_attributes":["data-product-id"]}
         },
 
         {
             name: 'ClearCartButton',
             type: 'button',
-            selectors: [".clear-cart-btn","[data-action='clear-cart']"],
-            purpose: 'Clear all items from the cart',
+            selectors: [".text-red-500",".hover:text-red-700"],
+            purpose: 'Clear all items from cart',
             contextNeeded: [],
-            contextCollection: {"search_parents":[".cart-container"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+            contextCollection: {"search_parents":[],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'RemoveFromCartButton',
+            name: 'ProceedToCheckoutButton',
             type: 'button',
-            selectors: [".remove-from-cart","[data-action='remove-from-cart']"],
-            purpose: 'Remove a specific item from the cart',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":[".cart-item"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
-        },
-
-        {
-            name: 'CarouselNavigation',
-            type: 'button',
-            selectors: [".carousel-prev",".carousel-next","[data-action='prev-slide']","[data-action='next-slide']"],
-            purpose: 'Navigate between carousel slides',
+            selectors: [".bg-blue-600",".text-white",".px-4",".py-2",".rounded-md",".hover:bg-blue-700",".transition-colors"],
+            purpose: 'Proceed to checkout from cart',
             contextNeeded: [],
-            contextCollection: {"search_parents":[".carousel"],"extract_fields":[],"sibling_context":[],"data_attributes":["data-slide-index"]}
+            contextCollection: {"search_parents":[],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'CarouselDotIndicator',
+            name: 'ShippingInfoForm',
+            type: 'form',
+            selectors: [".space-y-4","onSubmit={handleSubmit}"],
+            purpose: 'Shipping information form submission',
+            contextNeeded: ["firstName","lastName","email","phone","address","city","state","zipCode","country"],
+            contextCollection: {"search_parents":[],"extract_fields":["firstName","lastName","email","phone","address","city","state","zipCode","country"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'PaymentForm',
+            type: 'form',
+            selectors: [".space-y-4","onSubmit={handleSubmit}"],
+            purpose: 'Payment form submission',
+            contextNeeded: ["cardNumber","cardName","expiryDate","cvv","saveCard"],
+            contextCollection: {"search_parents":[],"extract_fields":["cardNumber","cardName","expiryDate","cvv","saveCard"],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'PreviousSlideButton',
             type: 'button',
-            selectors: [".carousel-dot","[data-slide-index]"],
-            purpose: 'Select a specific carousel slide',
+            selectors: [".absolute",".left-4",".top-1/2",".-translate-y-1/2",".bg-white/30",".hover:bg-white/50",".text-white",".p-2",".rounded-full",".backdrop-blur-sm",".transition-colors"],
+            purpose: 'Navigate to previous slide in carousel',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[".carousel"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'NextSlideButton',
+            type: 'button',
+            selectors: [".absolute",".right-4",".top-1/2",".-translate-y-1/2",".bg-white/30",".hover:bg-white/50",".text-white",".p-2",".rounded-full",".backdrop-blur-sm",".transition-colors"],
+            purpose: 'Navigate to next slide in carousel',
+            contextNeeded: [],
+            contextCollection: {"search_parents":[".carousel"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'SlideIndicator',
+            type: 'button',
+            selectors: [".w-2",".h-2",".rounded-full",".transition-all"],
+            purpose: 'Navigate to a specific slide in carousel',
             contextNeeded: ["slide_index"],
-            contextCollection: {"search_parents":[".carousel"],"extract_fields":["slide-index"],"sibling_context":[],"data_attributes":["data-slide-index"]}
+            contextCollection: {"search_parents":[".carousel"],"extract_fields":["slide_index"],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'ProductLink',
-            type: 'link',
-            selectors: [".product-card__link","[href^='/products/']"],
-            purpose: 'Navigate to a specific product page',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":[".product-card"],"extract_fields":["product-id"],"sibling_context":[],"data_attributes":["data-product-id"]}
-        },
-
-        {
-            name: 'LogoutButton',
+            name: 'MobileMenuToggle',
             type: 'button',
-            selectors: [".logout-btn","[data-action='logout']"],
-            purpose: 'Log out the user',
+            selectors: [".md:hidden",".text-gray-700"],
+            purpose: 'Toggle mobile menu',
             contextNeeded: [],
-            contextCollection: {"search_parents":[".user-menu"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+            contextCollection: {"search_parents":[],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         }
       ];
       
@@ -285,8 +357,8 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for test-app-rich-1758550776847');
-      console.log('📊 Tracking 13 discovered components');
+      console.log('🤖 AI-Enhanced Analytics initialized for test-app-rich-demo-2025-09-26-8521tkret0d');
+      console.log('📊 Tracking 21 discovered components');
       console.log('🔑 User ID:', this.userId);
       
       this.trackPageView();

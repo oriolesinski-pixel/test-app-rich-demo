@@ -8,7 +8,7 @@ export default function ReturnsPage() {
           <h2 className="text-2xl font-semibold mb-4">30-Day Return Policy</h2>
           <div className="bg-white rounded-lg shadow p-6">
             <p className="text-gray-700 mb-4">
-              We want you to be completely satisfied with your purchase. If you're not happy with your order,
+              We want you to be completely satisfied with your purchase. If you are not happy with your order,
               you can return it within 30 days of delivery for a full refund or exchange.
             </p>
           </div>
@@ -32,7 +32,7 @@ export default function ReturnsPage() {
             <ol className="list-decimal pl-6 text-gray-700 space-y-2">
               <li>Log into your account and go to Order History</li>
               <li>Select the order containing the item(s) you want to return</li>
-              <li>Click "Return Items" and follow the instructions</li>
+              <li>Click Return Items and follow the instructions</li>
               <li>Print the prepaid shipping label</li>
               <li>Pack the items securely and attach the label</li>
               <li>Drop off at any authorized shipping location</li>
@@ -44,7 +44,7 @@ export default function ReturnsPage() {
           <h2 className="text-2xl font-semibold mb-4">Refund Processing</h2>
           <div className="bg-white rounded-lg shadow p-6">
             <p className="text-gray-700 mb-4">
-              Once we receive your return, we'll inspect the items and process your refund within 5-7 business days.
+              Once we receive your return, we will inspect the items and process your refund within 5-7 business days.
               The refund will be credited to your original payment method.
             </p>
           </div>

@@ -1,11 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId') || 'ORD' + Date.now();
   const [confetti, setConfetti] = useState(true);
@@ -15,7 +16,7 @@ export default function SuccessPage() {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('shippingInfo');
     }
-    
+
     // Remove confetti after animation
     setTimeout(() => setConfetti(false), 3000);
   }, []);
@@ -33,7 +34,7 @@ export default function SuccessPage() {
           <p className="text-sm text-gray-600 mb-2">Order Number</p>
           <p className="text-xl font-semibold">{orderId}</p>
           <p className="text-sm text-gray-600 mt-4">
-            We've sent a confirmation email with your order details.
+            We have sent a confirmation email with your order details.
           </p>
         </div>
 
@@ -63,5 +64,23 @@ export default function SuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-md mx-auto text-center">
+          <div className="animate-pulse">
+            <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4"></div>
+            <div className="h-8 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }
