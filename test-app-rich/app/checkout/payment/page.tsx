@@ -19,7 +19,7 @@ export default function PaymentPage() {
     saveCard: false
   });
 
-  const shippingInfo = typeof window !== 'undefined' 
+  const shippingInfo = typeof window !== 'undefined'
     ? JSON.parse(localStorage.getItem('shippingInfo') || '{}')
     : {};
 
@@ -60,7 +60,8 @@ export default function PaymentPage() {
         };
 
         try {
-          const response = await fetch('http://localhost:3002/orders', {
+          // Changed from http://localhost:3002/orders to /api/orders
+          const response = await fetch('/api/orders', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -76,13 +77,14 @@ export default function PaymentPage() {
             return;
           }
         } catch (error) {
-          console.log('Backend not available, using mock order');
+          console.log('API error, using fallback order creation');
         }
 
+        // Fallback: Create order ID locally if API is not available
         const mockOrderId = 'ORD' + Date.now();
         clearCart();
         router.push(`/checkout/success?orderId=${mockOrderId}`);
-        
+
       } catch (error) {
         console.error('Payment error:', error);
         alert('Payment processing failed. Please try again.');
@@ -100,7 +102,7 @@ export default function PaymentPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Payment</h1>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -131,7 +133,7 @@ export default function PaymentPage() {
                   className="w-full px-4 py-2 border rounded-lg"
                   value={formatCardNumber(paymentData.cardNumber)}
                   onChange={(e) => setPaymentData({
-                    ...paymentData, 
+                    ...paymentData,
                     cardNumber: e.target.value.replace(/\s+/g, '')
                   })}
                 />
@@ -148,7 +150,7 @@ export default function PaymentPage() {
                   required
                   className="w-full px-4 py-2 border rounded-lg"
                   value={paymentData.cardName}
-                  onChange={(e) => setPaymentData({...paymentData, cardName: e.target.value})}
+                  onChange={(e) => setPaymentData({ ...paymentData, cardName: e.target.value })}
                 />
               </div>
 
@@ -169,7 +171,7 @@ export default function PaymentPage() {
                       if (value.length === 2 && !value.includes('/')) {
                         value = value + '/';
                       }
-                      setPaymentData({...paymentData, expiryDate: value});
+                      setPaymentData({ ...paymentData, expiryDate: value });
                     }}
                   />
                 </div>
@@ -184,7 +186,7 @@ export default function PaymentPage() {
                     maxLength={3}
                     className="w-full px-4 py-2 border rounded-lg"
                     value={paymentData.cvv}
-                    onChange={(e) => setPaymentData({...paymentData, cvv: e.target.value})}
+                    onChange={(e) => setPaymentData({ ...paymentData, cvv: e.target.value })}
                   />
                 </div>
               </div>
@@ -195,7 +197,7 @@ export default function PaymentPage() {
                   id="saveCard"
                   className="mr-2"
                   checked={paymentData.saveCard}
-                  onChange={(e) => setPaymentData({...paymentData, saveCard: e.target.checked})}
+                  onChange={(e) => setPaymentData({ ...paymentData, saveCard: e.target.checked })}
                 />
                 <label htmlFor="saveCard" className="text-sm text-gray-700">
                   Save card for future purchases
@@ -205,18 +207,17 @@ export default function PaymentPage() {
               <button
                 type="submit"
                 disabled={isProcessing}
-                className={`w-full py-3 rounded-lg transition-colors ${
-                  isProcessing 
-                    ? 'bg-gray-400 cursor-not-allowed' 
+                className={`w-full py-3 rounded-lg transition-colors ${isProcessing
+                    ? 'bg-gray-400 cursor-not-allowed'
                     : 'bg-blue-600 hover:bg-blue-700 text-white'
-                }`}
+                  }`}
               >
                 {isProcessing ? 'Processing...' : `Pay $${(totalAmount * 1.1).toFixed(2)}`}
               </button>
             </form>
           </div>
         </div>
-        
+
         <div className="bg-gray-50 p-6 rounded-lg h-fit">
           <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
           <div className="space-y-2 mb-4">
