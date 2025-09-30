@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 import { CartProvider } from '@/app/contexts/CartContext';
 import { WishlistProvider } from '@/app/contexts/WishlistContext';
@@ -22,10 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        {/* Analytics Tracker - Zero Configuration Required! */}
-        <Script src="/tracker.js" strategy="afterInteractive" />
-      </head>      <body className={inter.className}>
+      <body className={inter.className}>
         <AuthProvider>
           <CartProvider>
             <WishlistProvider>
