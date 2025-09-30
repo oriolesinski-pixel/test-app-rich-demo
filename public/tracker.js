@@ -108,9 +108,13 @@
   // ============ MAIN ANALYTICS TRACKER ============
   class AnalyticsTracker {
     constructor() {
+      // 🎯 PRODUCTION ENDPOINT - Hardcoded by design
+      // This tracker is a runtime UMD bundle that sends events to our centralized analytics service.
+      // All customer apps point to this same endpoint - each app is identified by its unique app_key.
+      // For local testing, manually edit this line in the generated tracker.js file.
       this.config = {
-        appKey: 'demo-test-apps-2025-09-29-ci1v042926o',
-        endpoint: 'http://localhost:8082/ingest/analytics',
+        appKey: 'demo-test-apps-2025-09-30-91l8m653z4o',
+        endpoint: 'https://analytics-service-production.up.railway.app/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
       };
@@ -136,72 +140,54 @@
             name: 'Link',
             type: 'link',
             selectors: ["a[href^='/']","a[href^='https://']"],
-            purpose: 'Navigation',
+            purpose: 'Navigation to different pages',
             contextNeeded: [],
-            contextCollection: {"search_parents":["a[href^='/']","a[href^='https://']"],"extract_fields":[],"sibling_context":[],"data_attributes":["href"]}
+            contextCollection: {"search_parents":["a[href^='/']","a[href^='https://']"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
             name: 'Button',
             type: 'button',
-            selectors: ["button","[role=\"button\"]","[data-action]"],
-            purpose: 'Interaction',
+            selectors: ["button[onClick]","button[data-action]"],
+            purpose: 'Logout, toggle mobile menu',
             contextNeeded: [],
-            contextCollection: {"search_parents":["button","[role=\"button\"]","[data-action]"],"extract_fields":[],"sibling_context":[],"data_attributes":["data-action"]}
+            contextCollection: {"search_parents":["button[onClick]","button[data-action]"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'Input',
-            type: 'form_input',
-            selectors: ["input[type=\"text\"]","input[type=\"email\"]","input[type=\"password\"]","textarea"],
-            purpose: 'Form data entry',
-            contextNeeded: ["form_data"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["form_data"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'QuantitySelector',
-            type: 'selector',
-            selectors: ["[data-action=\"update-quantity\"]","[data-product-id]"],
-            purpose: 'Quantity control',
-            contextNeeded: ["product_id","quantity"],
-            contextCollection: {"search_parents":["[data-product-id]"],"extract_fields":["product_id","quantity"],"sibling_context":[],"data_attributes":["data-product-id","data-action"]}
-        },
-
-        {
-            name: 'RemoveFromCart',
-            type: 'button',
-            selectors: ["[data-action=\"remove-item\"]"],
-            purpose: 'Remove item from cart',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":["[data-action=\"remove-item\"]"],"extract_fields":["product_id"],"sibling_context":[],"data_attributes":["data-action"]}
-        },
-
-        {
-            name: 'Form',
-            type: 'form',
-            selectors: ["form"],
-            purpose: 'Authentication, checkout, etc.',
-            contextNeeded: ["form_data"],
-            contextCollection: {"search_parents":["form"],"extract_fields":["form_data"],"sibling_context":[],"data_attributes":[]}
-        },
-
-        {
-            name: 'Wishlist',
+            name: 'ShoppingCart',
             type: 'icon',
-            selectors: ["[data-action=\"add-to-wishlist\"]"],
-            purpose: 'Add to wishlist',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":["[data-action=\"add-to-wishlist\"]"],"extract_fields":["product_id"],"sibling_context":[],"data_attributes":["data-action"]}
+            selectors: ["a[href='/cart'] svg"],
+            purpose: 'Navigate to cart page',
+            contextNeeded: ["itemCount"],
+            contextCollection: {"search_parents":["a[href='/cart'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'Carousel',
-            type: 'custom',
-            selectors: [".carousel"],
-            purpose: 'Product promotion',
-            contextNeeded: ["carousel_item_id"],
-            contextCollection: {"search_parents":[".carousel"],"extract_fields":["carousel_item_id"],"sibling_context":[],"data_attributes":[]}
+            name: 'Heart',
+            type: 'icon',
+            selectors: ["a[href='/wishlist'] svg"],
+            purpose: 'Navigate to wishlist page',
+            contextNeeded: [],
+            contextCollection: {"search_parents":["a[href='/wishlist'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'User',
+            type: 'icon',
+            selectors: ["a[href='/auth/login'] svg"],
+            purpose: 'Navigate to login page',
+            contextNeeded: ["isAuthenticated"],
+            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'Menu',
+            type: 'icon',
+            selectors: ["button[onClick^='setMobileMenuOpen']"],
+            purpose: 'Toggle mobile menu',
+            contextNeeded: ["mobileMenuOpen"],
+            contextCollection: {"search_parents":["button[onClick^='setMobileMenuOpen']"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         }
       ];
       
@@ -240,8 +226,8 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-09-29-ci1v042926o');
-      console.log('📊 Tracking 8 discovered components');
+      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-09-30-91l8m653z4o');
+      console.log('📊 Tracking 6 discovered components');
       console.log('🔑 User ID:', this.userId);
       
       this.trackPageView();
