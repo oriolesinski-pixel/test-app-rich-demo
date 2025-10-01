@@ -113,7 +113,7 @@
       // All customer apps point to this same endpoint - each app is identified by its unique app_key.
       // For local testing, manually edit this line in the generated tracker.js file.
       this.config = {
-        appKey: 'demo-test-apps-2025-10-01-k48trilpja',
+        appKey: 'demo-test-apps-2025-10-01-ygse18m8ab',
         endpoint: 'https://analytics-service-production.up.railway.app/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
@@ -142,106 +142,52 @@
             selectors: ["a[href^='/']","a[href^='https://']"],
             purpose: 'Navigation to different pages',
             contextNeeded: [],
-            contextCollection: {"search_parents":["a[href^='/']","a[href^='https://']"],"extract_fields":[],"sibling_context":[],"data_attributes":["href"]}
+            contextCollection: {"search_parents":["a[href^='/']","a[href^='https://']"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
             name: 'Button',
             type: 'button',
-            selectors: ["button","[role='button']","[data-action]"],
-            purpose: 'Triggering actions',
+            selectors: ["button[onClick]","button[data-action]"],
+            purpose: 'Logout, toggle mobile menu',
             contextNeeded: [],
-            contextCollection: {"search_parents":["button","[role='button']","[data-action]"],"extract_fields":[],"sibling_context":[],"data_attributes":["data-action"]}
+            contextCollection: {"search_parents":["button[onClick]","button[data-action]"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'IconButton',
+            name: 'ShoppingCart',
             type: 'icon',
-            selectors: ["button > svg","a > svg"],
-            purpose: 'Triggering actions with icons',
+            selectors: ["a[href='/cart'] svg"],
+            purpose: 'Navigate to cart page',
+            contextNeeded: ["itemCount"],
+            contextCollection: {"search_parents":["a[href='/cart'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+        },
+
+        {
+            name: 'Heart',
+            type: 'icon',
+            selectors: ["a[href='/wishlist'] svg"],
+            purpose: 'Navigate to wishlist page',
             contextNeeded: [],
-            contextCollection: {"search_parents":["button > svg","a > svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
+            contextCollection: {"search_parents":["a[href='/wishlist'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
-            name: 'QuantitySelector',
-            type: 'selector',
-            selectors: ["[data-action='update-quantity']","[data-product-id]"],
-            purpose: 'Adjusting product quantity in cart',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":["[data-action='update-quantity']","[data-product-id]"],"extract_fields":["product_id"],"sibling_context":[],"data_attributes":["data-action","data-product-id"]}
+            name: 'User',
+            type: 'icon',
+            selectors: ["a[href='/auth/login'] svg"],
+            purpose: 'Navigate to login page',
+            contextNeeded: ["isAuthenticated"],
+            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":["button[onClick]"],"data_attributes":[]}
         },
 
         {
-            name: 'RemoveFromCart',
-            type: 'button',
-            selectors: ["[data-action='remove-item']"],
-            purpose: 'Removing items from the cart',
-            contextNeeded: ["product_id"],
-            contextCollection: {"search_parents":["[data-action='remove-item']"],"extract_fields":["product_id"],"sibling_context":[],"data_attributes":["data-action"]}
-        },
-
-        {
-            name: 'LoginForm',
-            type: 'form',
-            selectors: ["form[action='/auth/login']"],
-            purpose: 'User authentication',
-            contextNeeded: ["email","password"],
-            contextCollection: {"search_parents":["form[action='/auth/login']"],"extract_fields":["email","password"],"sibling_context":[],"data_attributes":["action"]}
-        },
-
-        {
-            name: 'RegisterForm',
-            type: 'form',
-            selectors: ["form[action='/auth/register']"],
-            purpose: 'User registration',
-            contextNeeded: ["name","email","password"],
-            contextCollection: {"search_parents":["form[action='/auth/register']"],"extract_fields":["name","email","password"],"sibling_context":[],"data_attributes":["action"]}
-        },
-
-        {
-            name: 'CheckoutForm',
-            type: 'form',
-            selectors: ["form[onSubmit]"],
-            purpose: 'Checkout process',
-            contextNeeded: ["firstName","lastName","email","phone","address","city","state","zipCode","country"],
-            contextCollection: {"search_parents":["form[onSubmit]"],"extract_fields":["firstName","lastName","email","phone","address","city","state","zipCode","country"],"sibling_context":[],"data_attributes":["onSubmit"]}
-        },
-
-        {
-            name: 'PaymentForm',
-            type: 'form',
-            selectors: ["form[onSubmit^='handleSubmit']"],
-            purpose: 'Payment processing',
-            contextNeeded: ["cardNumber","cardName","expiryDate","cvv","saveCard"],
-            contextCollection: {"search_parents":["form[onSubmit^='handleSubmit']"],"extract_fields":["cardNumber","cardName","expiryDate","cvv","saveCard"],"sibling_context":[],"data_attributes":["onSubmit"]}
-        },
-
-        {
-            name: 'Carousel',
-            type: 'custom',
-            selectors: ["[data-component='Carousel']"],
-            purpose: 'Displaying a product carousel',
-            contextNeeded: [],
-            contextCollection: {"search_parents":["[data-component='Carousel']"],"extract_fields":[],"sibling_context":[],"data_attributes":["data-component"]}
-        },
-
-        {
-            name: 'Header',
-            type: 'custom',
-            selectors: ["[data-component='Header']"],
-            purpose: 'Main site navigation',
-            contextNeeded: ["user","cart"],
-            contextCollection: {"search_parents":["[data-component='Header']"],"extract_fields":["user","cart"],"sibling_context":[],"data_attributes":["data-component"]}
-        },
-
-        {
-            name: 'Footer',
-            type: 'custom',
-            selectors: ["[data-component='Footer']"],
-            purpose: 'Site information and links',
-            contextNeeded: [],
-            contextCollection: {"search_parents":["[data-component='Footer']"],"extract_fields":[],"sibling_context":[],"data_attributes":["data-component"]}
+            name: 'Menu',
+            type: 'icon',
+            selectors: ["button[onClick^='setMobileMenuOpen']"],
+            purpose: 'Toggle mobile menu',
+            contextNeeded: ["mobileMenuOpen"],
+            contextCollection: {"search_parents":["button[onClick^='setMobileMenuOpen']"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         }
       ];
       
@@ -280,8 +226,8 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-k48trilpja');
-      console.log('📊 Tracking 12 discovered components');
+      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-ygse18m8ab');
+      console.log('📊 Tracking 6 discovered components');
       console.log('🔑 User ID:', this.userId);
       
       this.trackPageView();
