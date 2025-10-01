@@ -113,7 +113,7 @@
       // All customer apps point to this same endpoint - each app is identified by its unique app_key.
       // For local testing, manually edit this line in the generated tracker.js file.
       this.config = {
-        appKey: 'demo-test-apps-2025-10-01-kl5y9eon70h',
+        appKey: 'demo-test-apps-2025-10-01-ppjxi0vbg18',
         endpoint: 'https://analytics-service-production.up.railway.app/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
@@ -149,7 +149,7 @@
             name: 'Button',
             type: 'button',
             selectors: ["button[onClick]","button[data-action]"],
-            purpose: 'Logout, toggle mobile menu',
+            purpose: 'Triggering actions like logout, opening mobile menu',
             contextNeeded: [],
             contextCollection: {"search_parents":["button[onClick]","button[data-action]"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
@@ -158,7 +158,7 @@
             name: 'ShoppingCart',
             type: 'icon',
             selectors: ["a[href='/cart'] svg"],
-            purpose: 'Navigate to cart page',
+            purpose: 'Navigating to the shopping cart',
             contextNeeded: ["itemCount"],
             contextCollection: {"search_parents":["a[href='/cart'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
@@ -167,7 +167,7 @@
             name: 'Heart',
             type: 'icon',
             selectors: ["a[href='/wishlist'] svg"],
-            purpose: 'Navigate to wishlist page',
+            purpose: 'Navigating to the wishlist',
             contextNeeded: [],
             contextCollection: {"search_parents":["a[href='/wishlist'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
@@ -176,16 +176,16 @@
             name: 'User',
             type: 'icon',
             selectors: ["a[href='/auth/login'] svg"],
-            purpose: 'Navigate to login page',
-            contextNeeded: ["isAuthenticated","user"],
-            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":["span","button"],"data_attributes":[]}
+            purpose: 'Navigating to the login page',
+            contextNeeded: ["isAuthenticated"],
+            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         },
 
         {
             name: 'Menu',
             type: 'icon',
             selectors: ["button[onClick^='setMobileMenuOpen']"],
-            purpose: 'Toggle mobile menu',
+            purpose: 'Toggling the mobile menu',
             contextNeeded: ["mobileMenuOpen"],
             contextCollection: {"search_parents":["button[onClick^='setMobileMenuOpen']"],"extract_fields":[],"sibling_context":[],"data_attributes":[]}
         }
@@ -226,7 +226,7 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-kl5y9eon70h');
+      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-ppjxi0vbg18');
       console.log('📊 Tracking 6 discovered components');
       console.log('🔑 User ID:', this.userId);
       
