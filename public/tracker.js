@@ -113,7 +113,7 @@
       // All customer apps point to this same endpoint - each app is identified by its unique app_key.
       // For local testing, manually edit this line in the generated tracker.js file.
       this.config = {
-        appKey: 'demo-test-apps-2025-10-01-ygse18m8ab',
+        appKey: 'demo-test-apps-2025-10-01-kl5y9eon70h',
         endpoint: 'https://analytics-service-production.up.railway.app/ingest/analytics',
         batchSize: 10,
         flushInterval: 30000
@@ -177,8 +177,8 @@
             type: 'icon',
             selectors: ["a[href='/auth/login'] svg"],
             purpose: 'Navigate to login page',
-            contextNeeded: ["isAuthenticated"],
-            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":["button[onClick]"],"data_attributes":[]}
+            contextNeeded: ["isAuthenticated","user"],
+            contextCollection: {"search_parents":["a[href='/auth/login'] svg"],"extract_fields":[],"sibling_context":["span","button"],"data_attributes":[]}
         },
 
         {
@@ -226,7 +226,7 @@
 
     // ============ AI-ENHANCED AUTO-TRACKING ============
     initAutoTracking() {
-      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-ygse18m8ab');
+      console.log('🤖 AI-Enhanced Analytics initialized for demo-test-apps-2025-10-01-kl5y9eon70h');
       console.log('📊 Tracking 6 discovered components');
       console.log('🔑 User ID:', this.userId);
       
