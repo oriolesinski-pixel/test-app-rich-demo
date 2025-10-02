@@ -21,6 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script src="/tracker.js" defer></script>
+      </head>
       <body className={inter.className}>
         <AuthProvider>
           <CartProvider>
