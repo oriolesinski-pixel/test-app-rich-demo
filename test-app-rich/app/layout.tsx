@@ -4,6 +4,7 @@ import './globals.css';
 import { CartProvider } from '@/app/contexts/CartContext';
 import { WishlistProvider } from '@/app/contexts/WishlistContext';
 import { AuthProvider } from '@/app/contexts/AuthContext';
+import AnalyticsProvider from '@/app/components/AnalyticsProvider';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 
@@ -21,7 +22,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script src="/tracker.js" defer></script>
+      </head>
       <body className={inter.className}>
+        <AnalyticsProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <AuthProvider>
+                <div className="flex flex-col min-h-screen">
+                  <Header />
+                  <main>{children}</main>
+                  <Footer />
+                </div>
+              </AuthProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </AnalyticsProvider>
       </body>
     </html>
   );
+}
