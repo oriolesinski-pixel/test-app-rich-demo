@@ -6,6 +6,7 @@ import { WishlistProvider } from '@/app/contexts/WishlistContext';
 import { AuthProvider } from '@/app/contexts/AuthContext';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
+import AnalyticsProvider from '@/app/components/AnalyticsProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script src="/tracker.js" defer></script>
+      </head>
       <body className={inter.className}>
+        <AnalyticsProvider>
+        </AnalyticsProvider>
       </body>
     </html>
   );
